@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 text-center">
         {/* Brand */}
         <h1 className="text-3xl font-extrabold mb-3 tracking-wide text-white">
-          Ecommerce App
+          Zentro
         </h1>
 
         {/* Links */}
