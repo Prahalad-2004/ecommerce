@@ -34,7 +34,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <p className="text-xs mt-6 text-gray-400 tracking-wide">
-          &copy; {new Date().getFullYear()} <span className="font-semibold text-gray-200">Ecommerce App</span>. 
+          &copy; {new Date().getFullYear()} <span className="font-semibold text-gray-200">Zentro</span>. 
           All rights reserved.
         </p>
       </div>
