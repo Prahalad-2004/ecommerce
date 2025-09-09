@@ -253,7 +253,7 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Brand */}
           <Link to="/" className="text-lg font-bold text-blue-600">
-            🛒 Ecommerce App
+            🛒 Zentro
           </Link>
 
           {/* Desktop Menu */}
