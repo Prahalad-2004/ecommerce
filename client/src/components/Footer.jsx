@@ -3,31 +3,39 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-gray-700 to-black text-white py-6 mt-8">
+    <footer className="bg-gradient-to-r from-indigo-900 via-blue-900 to-black text-gray-200 py-8 mt-12 shadow-inner">
       <div className="container mx-auto px-4 text-center">
-        <h1 className="text-2xl font-bold mb-2">Ecommerce App</h1>
-        <p className="space-x-4 text-sm uppercase">
+        {/* Brand */}
+        <h1 className="text-3xl font-extrabold mb-3 tracking-wide text-white">
+          Ecommerce App
+        </h1>
+
+        {/* Links */}
+        <nav className="space-x-6 text-sm uppercase font-medium">
           <Link
             to="/about"
-            className="hover:text-yellow-300 transition duration-200"
+            className="hover:text-yellow-400 transition-colors duration-200"
           >
             About
           </Link>
           <Link
             to="/contact"
-            className="hover:text-yellow-300 transition duration-200"
+            className="hover:text-yellow-400 transition-colors duration-200"
           >
             Contact
           </Link>
           <Link
             to="/policy"
-            className="hover:text-yellow-300 transition duration-200"
+            className="hover:text-yellow-400 transition-colors duration-200"
           >
             Privacy Policy
           </Link>
-        </p>
-        <p className="text-xs mt-4 text-gray-300">
-          &copy; {new Date().getFullYear()} Ecommerce App. All rights reserved.
+        </nav>
+
+        {/* Copyright */}
+        <p className="text-xs mt-6 text-gray-400 tracking-wide">
+          &copy; {new Date().getFullYear()} <span className="font-semibold text-gray-200">Ecommerce App</span>. 
+          All rights reserved.
         </p>
       </div>
     </footer>

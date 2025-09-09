@@ -6,6 +6,11 @@ const AdminMenu = () => {
     { to: "/dashboard/admin/create-category", label: "Create Category" },
     { to: "/dashboard/admin/create-product", label: "Create Product" },
     { to: "/dashboard/admin/users", label: "Users" },
+    { to: "/dashboard/admin/orders", label: "Orders" },
+    { to: "/dashboard/admin/products", label: "Products" },
+
+    
+    
   ];
 
   return (

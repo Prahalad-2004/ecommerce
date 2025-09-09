@@ -1,69 +1,121 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import UserMenu from "../../components/Layout/UserMenu";
 import Layout from "./../../components/Layout/Layout";
+import axios from "axios";
+import { useAuth } from "../../context/auth";
+import moment from "moment";
 
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
+  const [auth] = useAuth();
+
+  const getOrders = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/auth/orders");
+      setOrders(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (auth?.token) getOrders();
+  }, [auth?.token]);
+
   return (
     <Layout title={"Your Orders"}>
-      <div className="p-6 bg-gray-50 min-h-screen">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="px-3 py-4 md:px-6">
+        <div className="flex flex-col md:flex-row gap-6">
           {/* Sidebar */}
-          <div className="md:col-span-1">
-            <UserMenu />
-          </div>
-
-          {/* Main Content */}
-          <div className="md:col-span-3 bg-white shadow-md rounded-xl p-6">
-            <h1 className="text-2xl font-semibold text-gray-800 mb-6">
-              All Orders
-            </h1>
-
-            {/* Orders Table Placeholder */}
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse border border-gray-200 rounded-lg">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="px-4 py-2 border border-gray-200 text-left">
-                      Order ID
-                    </th>
-                    <th className="px-4 py-2 border border-gray-200 text-left">
-                      Date
-                    </th>
-                    <th className="px-4 py-2 border border-gray-200 text-left">
-                      Status
-                    </th>
-                    <th className="px-4 py-2 border border-gray-200 text-left">
-                      Total
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* Example Rows */}
-                  <tr>
-                    <td className="px-4 py-2 border border-gray-200">#12345</td>
-                    <td className="px-4 py-2 border border-gray-200">2025-08-10</td>
-                    <td className="px-4 py-2 border border-gray-200">
-                      <span className="px-2 py-1 text-sm rounded bg-green-100 text-green-700">
-                        Delivered
-                      </span>
-                    </td>
-                    <td className="px-4 py-2 border border-gray-200">$120.00</td>
-                  </tr>
-                  <tr className="bg-gray-50">
-                    <td className="px-4 py-2 border border-gray-200">#12346</td>
-                    <td className="px-4 py-2 border border-gray-200">2025-08-15</td>
-                    <td className="px-4 py-2 border border-gray-200">
-                      <span className="px-2 py-1 text-sm rounded bg-yellow-100 text-yellow-700">
-                        Processing
-                      </span>
-                    </td>
-                    <td className="px-4 py-2 border border-gray-200">$80.00</td>
-                  </tr>
-                  {/* Later: map orders dynamically from API */}
-                </tbody>
-              </table>
+          <aside className="md:w-64 w-full">
+            <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+              <UserMenu />
             </div>
-          </div>
+          </aside>
+
+          {/* Main */}
+          <main className="flex-1">
+            <h1 className="text-2xl font-semibold text-center mb-6">All Orders</h1>
+
+            {orders?.map((o, i) => (
+              <div
+                key={o?._id || i}
+                className="mb-6 rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden"
+              >
+                {/* Table-like order summary */}
+                <div className="overflow-x-auto">
+                  <table className="min-w-full text-sm">
+                    <thead className="bg-gray-50">
+                      <tr className="text-left text-gray-600">
+                        <th className="px-4 py-3 font-medium">#</th>
+                        <th className="px-4 py-3 font-medium">Status</th>
+                        <th className="px-4 py-3 font-medium">Buyer</th>
+                        <th className="px-4 py-3 font-medium">Date</th>
+                        <th className="px-4 py-3 font-medium">Payment</th>
+                        <th className="px-4 py-3 font-medium">Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-t">
+                        <td className="px-4 py-3">{i + 1}</td>
+                        <td className="px-4 py-3">{o?.status}</td>
+                        <td className="px-4 py-3">{o?.buyer?.name}</td>
+                        <td className="px-4 py-3">
+                          {moment(o?.createdAt || o?.createAt).fromNow()}
+                        </td>
+                        <td className="px-4 py-3">
+                          {o?.payment?.success ? (
+                            <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700">
+                              Success
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-700">
+                              Failed
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3">{o?.products?.length}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Products list */}
+                <div className="p-4 grid gap-4">
+                  {o?.products?.map((p) => (
+                    <div
+                      key={p?._id}
+                      className="flex gap-4 rounded-xl border border-gray-100 p-3 md:p-4"
+                    >
+                      <div className="shrink-0">
+                        <img
+                          src={`/api/v1/product/product-photo/${p?._id}`}
+                          alt={p?.name}
+                          className="h-24 w-24 md:h-28 md:w-28 rounded-lg object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium">{p?.name}</p>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {p?.description?.substring(0, 30)}
+                          {p?.description?.length > 30 ? "..." : ""}
+                        </p>
+                        <p className="mt-2 text-sm">
+                          <span className="text-gray-500">Price:</span>{" "}
+                          <span className="font-semibold">{p?.price}</span>
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {(!orders || orders.length === 0) && (
+              <div className="text-center text-gray-600">No orders yet.</div>
+            )}
+          </main>
         </div>
       </div>
     </Layout>
