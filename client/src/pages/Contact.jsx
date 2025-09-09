@@ -26,11 +26,11 @@ const Contact = () => {
             </p>
             <div className="flex items-center gap-3 mb-4">
               <BiMailSend size={24} className="text-blue-600" />
-              <span className="font-medium text-gray-800">help@ecommerceapp.com</span>
+              <span className="font-medium text-gray-800">help@Zentro.com</span>
             </div>
             <div className="flex items-center gap-3 mb-4">
               <BiPhoneCall size={24} className="text-green-600" />
-              <span className="font-medium text-gray-800">012-3456789</span>
+              <span className="font-medium text-gray-800">895986595</span>
             </div>
             <div className="flex items-center gap-3">
               <BiSupport size={24} className="text-red-600" />
