@@ -411,7 +411,7 @@ const CartPage = () => {
       key,
       amount: order.amount,
       currency: order.currency,
-      name: "Ecommerce App",
+      name: "Zentro",
       description: "Order Payment",
       order_id: order.id,
       handler: async function (response) {
