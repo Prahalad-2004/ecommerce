@@ -41,7 +41,7 @@ const __dirname = path.dirname(__filename);
 
  // API route
  app.get('/api', (req,res) => {
-    res.send("<h1>Welcome to E-commerce API</h1>");
+    res.send("<h1>Welcome to E-commerce API - Auto-deploy test</h1>");
  });
 
  // Catch all handler: send back React's index.html file for any non-API routes
