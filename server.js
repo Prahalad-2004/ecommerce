@@ -54,6 +54,6 @@ const __dirname = path.dirname(__filename);
  const PORT = process.env.PORT || 8080;
 
  //run
- app.listen(PORT ,()=> {
+ app.listen(PORT ,'0.0.0.0',()=> {
     console.log(`server running on  ${process.env.DEV_MODE}mode on port ${PORT}`.bgCyan.white);
  });
